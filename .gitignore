@@ -132,5 +132,6 @@ reset_db.sh
 docker_run.sh
 .DS_Store
 /sessions
+/dashboard
 reset_git.sh
 docker_test.sh

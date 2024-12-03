@@ -63,7 +63,8 @@ app.use(express.json());
 app.use('/api/instances', validateAPIKey, require('./src/api/routes/instances'));
 
 // Servir o React em produção
-const buildPath = path.join(__dirname, 'src/dashboard/build');
+// const buildPath = path.join(__dirname, 'src/dashboard/build');
+const buildPath = path.join(__dirname, 'src/manager');
 app.use(express.static(buildPath));
 
 // Qualquer rota não capturada é redirecionada para o React
