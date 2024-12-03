@@ -41,6 +41,6 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository }}:${{ env.VERSION }}
             ghcr.io/${{ github.repository }}:latest
-          platforms: linux/amd64,linux/arm64,linux/386,linux/ppc64le,linux/s390x,windows/amd64,windows/arm64,osx/amd64
+          platforms: linux/amd64,linux/arm64
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:cache
           cache-to: type=inline

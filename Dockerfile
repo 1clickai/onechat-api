@@ -1,5 +1,5 @@
 # Etapa 1: Build do React
-FROM node:20 AS build
+FROM node:20-alpine AS build
 
 # Atualize os pacotes e instale o FFmpeg
 RUN apk update && apk add --no-cache ffmpeg
