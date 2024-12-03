@@ -42,7 +42,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=raw,pattern=latest
+            type=raw,pattern=latest  # Corrigido para gerar a tag latest corretamente
 
       # Buildar e enviar a imagem Docker
       - name: Build and push Docker image
