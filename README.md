@@ -213,28 +213,34 @@ The complete API documentation can be found at `/api-docs` in your installation.
 ### Example API Routes:
 1. **Create Instance**:
    ```bash
-   curl -X POST http://localhost:3000/api/instances         -H "Authorization: Bearer YOUR_API_KEY"         -H "Content-Type: application/json"         -d '{"udid": "unique-id-123"}'
+   curl -X POST http://localhost:3000/api/instances -H "Authorization: Bearer YOUR_API_KEY" -H "Content-Type: application/json" -d '{"udid": "unique-id-123"}'
    ```
 
 2. **Get QR Data**:
    ```bash
-   curl -X GET http://localhost:3000/api/instances/unique-id-123/qr         -H "Authorization: Bearer YOUR_API_KEY"
+   curl -X GET http://localhost:3000/api/instances/unique-id-123/qr -H "Authorization: Bearer YOUR_API_KEY"
    ```
 
 3. **Delete Instance**:
    ```bash
-   curl -X DELETE http://localhost:3000/api/instances/unique-id-123         -H "Authorization: Bearer YOUR_API_KEY"
+   curl -X DELETE http://localhost:3000/api/instances/unique-id-123 -H "Authorization: Bearer YOUR_API_KEY"
    ```
 
 4. **Update Webhook**:
    ```bash
-   curl -X PATCH http://localhost:3000/api/instances/unique-id-123/webhook         -H "Authorization: Bearer YOUR_API_KEY"         -H "Content-Type: application/json"         -d '{"webhook": "https://your-webhook-url.com", "webhook_key": "secure-key-1234"}'
+   curl -X PATCH http://localhost:3000/api/instances/unique-id-123/webhook -H "Authorization: Bearer YOUR_API_KEY" -H "Content-Type: application/json" -d '{"webhook": "https://your-webhook-url.com", "webhook_key": "secure-key-1234"}'
    ```
 
 5. **Disconnect Instance**:
    ```bash
-   curl -X POST http://localhost:3000/api/instances/unique-id-123/disconnect         -H "Authorization: Bearer YOUR_API_KEY"
+   curl -X POST http://localhost:3000/api/instances/unique-id-123/disconnect -H "Authorization: Bearer YOUR_API_KEY"
    ```
+
+6. **Send Message**:
+   ```bash
+   curl -X POST http://localhost:3000/api/instances/unique-id-123/send-message -H "Authorization: Bearer YOUR_API_KEY" -d '{"platform": "telegram", "recipient": "5492361899", "message": "Hello, this is a test message."}'
+   ```
+
 
 ---
 
