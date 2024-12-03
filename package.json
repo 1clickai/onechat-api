@@ -1,5 +1,5 @@
 {
-  "name": "1clickai-onechat-api",
+  "name": "onechat-api",
   "version": "1.0.0",
   "scripts": {
     "start-with-build": "NODE_ENV=production node server.js",

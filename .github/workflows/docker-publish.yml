@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-  release:
-    types: [published]
 
 jobs:
   build-and-push:
@@ -15,6 +13,11 @@ jobs:
       # Checkout do código-fonte
       - name: Checkout code
         uses: actions/checkout@v3
+
+      # Ler versão do package.json
+      - name: Extract version from package.json
+        id: extract_version
+        run: echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_ENV        
 
       # Login no GitHub Container Registry
       - name: Log in to GitHub Container Registry
@@ -30,27 +33,14 @@ jobs:
         with:
           driver: docker-container
 
-      # Extrair metadados (tags, labels) para o Docker
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=raw,pattern=latest  # Corrigido para gerar a tag latest corretamente
-
       # Buildar e enviar a imagem Docker
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ env.VERSION }}
+            ghcr.io/${{ github.repository }}:latest
           platforms: linux/amd64,linux/arm64,linux/386,linux/ppc64le,linux/s390x,windows/amd64,windows/arm64,osx/amd64
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:cache
           cache-to: type=inline

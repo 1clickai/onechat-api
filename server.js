@@ -5,6 +5,8 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const { connectToDB } = require('./src/db');
 const { initializeAllInstances } = require('./src/baileys');
 require('dotenv').config();
+const { version } = require('./package.json');
+//console.log(`App version: ${version}`);
 
 const app = express();
 const PORT = process.env.PORT || 3000; // React e backend na mesma porta
@@ -77,6 +79,8 @@ connectToDB()
             .then(() => {
                 console.log(`
                     🚀✨  OnetChat API Service Status ✨🚀
+                    --------------------------------------
+                    Version: ${version}
                     --------------------------------------
                     ✅  Service has been successfully started!
                     🌐  All instances initialized and ready.
