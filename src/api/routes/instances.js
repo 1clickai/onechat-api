@@ -7,6 +7,7 @@ const {
     getQRCode,
     updateWebhook,
     disconnectInstance,
+    sendMessage
 } = require('../controllers/instances');
 
 /**
@@ -274,5 +275,52 @@ router.patch('/:id/webhook', updateWebhook);
  *         description: Internal server error.
  */
 router.post('/:id/disconnect', disconnectInstance);
+
+
+/**
+ * @swagger
+ * /api/instances/{id}/send-message:
+ *   post:
+ *     summary: Send a message using a specific instance
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: Unique identifier for the instance.
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               platform:
+ *                 type: string
+ *                 description: Platform to send the message (whatsapp, telegram, discord).
+ *                 example: "whatsapp"
+ *               recipient:
+ *                 type: string
+ *                 description: Recipient identifier (phone number for WhatsApp, chat ID for Telegram, channel ID for Discord).
+ *                 example: "1234567890"
+ *               message:
+ *                 type: string
+ *                 description: Message to be sent.
+ *                 example: "Hello, this is a test message."
+ *     responses:
+ *       200:
+ *         description: Message sent successfully.
+ *       400:
+ *         description: Bad request.
+ *       404:
+ *         description: Instance not found.
+ *       500:
+ *         description: Internal server error.
+ */
+router.post('/:id/send-message', sendMessage);
+
 
 module.exports = router;

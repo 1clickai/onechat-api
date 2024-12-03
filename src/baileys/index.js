@@ -662,5 +662,42 @@ function resetQRCodeCounter(id) {
     }
 }
 
+async function sendMessageWhatsApp(instanceId, recipient, message) {
+    if (!instances[instanceId]) {
+        throw new Error(`WhatsApp instance ${instanceId} not found or not connected.`);
+    }
+    await instances[instanceId].sendMessage(`${recipient}@s.whatsapp.net`, { text: message });
+}
 
-module.exports = { resetQRCodeCounter, initializeWhatsAppBot, stopInstance, initializeAllInstances, instances, initializeTelegramBot, initializeDiscordBot };
+async function sendMessageTelegram(instanceId, recipient, message) {
+    if (!telegramBots[instanceId]) {
+        throw new Error(`Telegram bot ${instanceId} not found or not connected.`);
+    }
+    await telegramBots[instanceId].sendMessage(recipient, message);
+}
+
+async function sendMessageDiscord(instanceId, channelId, message) {
+    if (!discordBots[instanceId]) {
+        throw new Error(`Discord bot ${instanceId} not found or not connected.`);
+    }
+
+    const channel = await discordBots[instanceId].channels.fetch(channelId);
+    if (!channel || !channel.isTextBased()) {
+        throw new Error(`Invalid Discord channel or recipient for instance ${instanceId}.`);
+    }
+
+    await channel.send(message);
+}
+
+module.exports = { 
+    resetQRCodeCounter, 
+    initializeWhatsAppBot, 
+    stopInstance, 
+    initializeAllInstances, 
+    instances, 
+    initializeTelegramBot, 
+    initializeDiscordBot,
+    sendMessageWhatsApp,
+    sendMessageTelegram,
+    sendMessageDiscord,    
+};

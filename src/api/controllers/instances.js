@@ -1,7 +1,18 @@
-const { resetQRCodeCounter, initializeWhatsAppBot, stopInstance, instances, initializeTelegramBot, initializeDiscordBot } = require('../../baileys');
+const { 
+    resetQRCodeCounter, 
+    initializeWhatsAppBot, 
+    stopInstance, 
+    instances, 
+    initializeTelegramBot, 
+    initializeDiscordBot,
+    sendMessageWhatsApp, 
+    sendMessageTelegram, 
+    sendMessageDiscord,
+} = require('../../baileys');
 const db = require('../../db');
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios'); // Certifique-se de instalar o axios para fazer a requisição HTTP
 
 // Caminho base para as pastas de sessões
 const sessionsBasePath = path.join(__dirname, '../../sessions');
@@ -120,9 +131,6 @@ async function listInstances(req, res) {
         res.status(500).send({ message: 'Failed to list instances', error: error.message });
     }
 }
-
-
-const axios = require('axios'); // Certifique-se de instalar o axios para fazer a requisição HTTP
 
 // Obter o QR Code de uma instância
 async function getQRCode(req, res) {
@@ -293,14 +301,23 @@ async function disconnectInstance(req, res) {
             return res.status(404).send({ message: 'Instance not found' });
         }
 
-        // Deslogar e parar a instância ativa
+        // Deslogar e parar a instância ativa, mesmo que o logout falhe
         if (instances[id]) {
-            await instances[id].logout(); // Desconectar o número
-            console.log(`Instance ${id} logged out.`);
+            try {
+                await instances[id].logout(); // Tentar desconectar o número
+                console.log(`Instance ${id} logged out.`);
+            } catch (logoutError) {
+                console.error(`Failed to log out instance ${id}:`, logoutError);
+            }
         }
 
-        await stopInstance(id, 'whatsapp');
-        console.log(`Instance ${id} stopped.`);        
+        // Continuar com a parada da instância
+        try {
+            await stopInstance(id, 'whatsapp');
+            console.log(`Instance ${id} stopped.`);
+        } catch (stopError) {
+            console.error(`Failed to stop instance ${id}:`, stopError);
+        }
 
         // Apagar os dados da sessão
         const sessionPath = path.join(__dirname, '../../../sessions', id);
@@ -312,14 +329,23 @@ async function disconnectInstance(req, res) {
         }
 
         // Atualizar o status no banco e zerar o phone_number
-        await db.query(
-            'UPDATE instances SET status = $1, phone_number = NULL, profile_picture = NULL, updated_at = NOW() WHERE udid = $2',
-            ['disconnected', id]
-        );
+        try {
+            await db.query(
+                'UPDATE instances SET status = $1, phone_number = NULL, profile_picture = NULL, updated_at = NOW() WHERE udid = $2',
+                ['disconnected', id]
+            );
+            console.log(`Database updated for instance ${id}.`);
+        } catch (dbUpdateError) {
+            console.error(`Failed to update database for instance ${id}:`, dbUpdateError);
+        }
 
         // Reiniciar a instância
-        initializeWhatsAppBot(id);
-        console.log(`Instance ${id} restarted.`);
+        try {
+            initializeWhatsAppBot(id);
+            console.log(`Instance ${id} restarted.`);
+        } catch (initializeError) {
+            console.error(`Failed to restart instance ${id}:`, initializeError);
+        }
 
         res.status(200).send({ message: 'Instance disconnected and restarted' });
     } catch (error) {
@@ -330,6 +356,34 @@ async function disconnectInstance(req, res) {
 
 
 
+// Enviar mensagem por uma instância específica
+async function sendMessage(req, res) {
+    const { id } = req.params;
+    const { platform, recipient, message } = req.body;
+
+    if (!platform || !recipient || !message) {
+        return res.status(400).send({ message: 'Platform, recipient, and message are required.' });
+    }
+
+    try {
+        if (platform === 'whatsapp') {
+            await sendMessageWhatsApp(id, recipient, message);
+        } else if (platform === 'telegram') {
+            await sendMessageTelegram(id, recipient, message);
+        } else if (platform === 'discord') {
+            await sendMessageDiscord(id, recipient, message);
+        } else {
+            return res.status(400).send({ message: 'Invalid platform specified.' });
+        }
+
+        res.status(200).send({ message: 'Message sent successfully.' });
+    } catch (error) {
+        console.error('Error sending message:', error);
+        res.status(500).send({ message: 'Failed to send message.', error: error.message });
+    }
+}
+
+
 
 module.exports = {
     createInstance,
@@ -338,4 +392,5 @@ module.exports = {
     updateWebhook,
     getQRCode,
     disconnectInstance,
+    sendMessage,
 };
