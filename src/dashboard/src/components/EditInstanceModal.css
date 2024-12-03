@@ -1,0 +1,85 @@
+.edit-instance-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.edit-instance-form .form-group {
+    position: relative;
+}
+
+.edit-instance-form .form-label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.edit-instance-form .form-control {
+    background-color: #212529;
+    color: #fff;
+    border: 1px solid #6c757d;
+    border-radius: 5px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.edit-instance-form .form-control:focus {
+    outline: none;
+    border-color: #28a745;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+}
+
+.edit-instance-form .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.edit-instance-form .btn-success:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+
+.modal-header {
+    background-color: #f8f9fa; /* Fundo claro */
+    border-bottom: 2px solid #dee2e6; /* Separação com borda */
+    padding: 1rem;
+}
+
+.modal-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin: 0 auto; /* Centraliza o texto */
+    color: #343a40; /* Texto escuro */
+}
+
+
+.modal-body {
+    background-color: #fff;
+    color: #212529;
+    padding: 2rem;
+}
+
+.modal-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    padding: 1rem;
+}
+
+.modal-dialog {
+    width: 90% !important;
+    max-width: 900px !important;
+    margin: 0 auto; /* Centraliza horizontalmente */
+}
+
+.modal-content {
+    width: 100%; /* Garante que o conteúdo preencha todo o espaço disponível */
+    max-width: 100%; /* Impede que o conteúdo ultrapasse a largura do modal */
+}
+

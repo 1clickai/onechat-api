@@ -1,0 +1,33 @@
+/* Esconde a tabela em telas menores */
+@media (max-width: 768px) {
+    .d-md-table {
+        display: none !important;
+    }
+}
+
+/* Design de cartões responsivos */
+.responsive-cards .card {
+    border: 1px solid #333;
+    background-color: #1a1a1a;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.responsive-cards .card p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Centraliza os botões à direita no layout dos cartões */
+.responsive-cards .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.responsive-cards .card-body > div {
+    display: flex;
+    justify-content: flex-end; /* Alinha os botões à direita */
+    gap: 0.5rem; /* Espaçamento entre os botões */
+}

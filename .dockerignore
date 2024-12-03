@@ -1,0 +1,7 @@
+.env
+node_modules
+npm-debug.log
+Dockerfile
+.dockerignore
+src/dashboard/node_modules
+src/dashboard/build

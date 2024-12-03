@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+/* Estilos globais */
+body {
+  background-color: #121212;
+  color: #ffffff;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: 500 !important; /* Força o peso da fonte para 400 */
+  font-style: normal;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  max-width: 800px;
+  padding: 30px;
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilo do cabeçalho */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #f0f0f0;
+}
+
+/* Input */
+input.form-control {
+  background-color: #262626;
+  border: 1px solid #333;
+  color: #ffffff;
+}
+
+input.form-control::placeholder {
+  color: #888;
+}
+
+/* Estilização dos links (Telegram e WhatsApp) */
+a {
+  color: #f0f0f0; /* Azul suave, semelhante ao Telegram */
+  text-decoration: none; /* Remove o sublinhado */
+  font-weight: bold; /* Torna o texto mais destacado */
+  transition: color 0.3s ease; /* Suave mudança de cor ao passar o mouse */
+}
+
+a:hover {
+  color: #0d6efd; /* Azul mais intenso ao passar o mouse */
+  text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+}
+
+/* Ícones alinhados e com espaçamento */
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaço entre o texto e o ícone */
+}
+
+/* Ícone de status (verde e vermelho) */
+.icon-wrapper .status-icon {
+  font-size: 1.2em;
+  margin-left: 4px;
+}
+
+/* Ajuste geral para texto e links na tabela */
+td a {
+  display: inline-block; /* Garante que o link tenha um comportamento de bloco */
+  margin: 0 5px; /* Adiciona um pequeno espaçamento ao redor do link */
+  font-size: 0.95em; /* Ajusta o tamanho da fonte */
+}
+
+
+/* Botões */
+button {
+  border-radius: 8px;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  --bs-btn-font-weight: 500 !important; /* Força o peso da fonte para 500 */
+}
+
+.btn-primary:hover {
+  background-color: #25cff2;
+  --bs-btn-font-weight: 500 !important; /* Força o peso da fonte para 500 */
+}
+
+.btn-danger {
+  background-color: #e94560;
+  --bs-btn-font-weight: 500 !important; /* Força o peso da fonte para 500 */
+}
+
+.btn-danger:hover {
+  background-color: #c53050;
+  --bs-btn-font-weight: 500 !important; /* Força o peso da fonte para 500 */
+}
+
+.btn-success {
+  background-color: #28a745;
+  --bs-btn-font-weight: 500 !important; /* Força o peso da fonte para 500 */
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  --bs-btn-font-weight: 500 !important; /* Força o peso da fonte para 500 */
+}
+
+.btn-info {
+  background-color: #0d6efd;
+  --bs-btn-font-weight: 500 !important; /* Força o peso da fonte para 500 */
+}
+
+.btn-info:hover {
+  background-color: #25cff2;
+  --bs-btn-font-weight: 500 !important; /* Força o peso da fonte para 500 */
+}
+
+/* Estilo da Tabela */
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+td, th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Botões de Ação */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-buttons .btn {
+  margin: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 18px;
+  padding: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-buttons .btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Notificações */
+.notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notification {
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.5s ease, fadeOut 0.5s ease 4s;
+}
+
+.notification.success {
+  background-color: #28a745;
+}
+
+.notification.error {
+  background-color: #e94560;
+}
+
+.notification.info {
+  background-color: #17a2b8;
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+      opacity: 1;
+  }
+  to {
+      opacity: 0;
+  }
+}
+
+/* Modal */
+.modal.show {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+}

@@ -1,0 +1,38 @@
+services:
+  1clickai:
+    image: ghcr.io/1clickai/onechat-api:v1.0.0
+    container_name: 1clickai-onechat-api
+    ports:
+      - "3000:3000"  # Porta exposta pelo serviço
+    depends_on:
+      - db  # Garantir que o banco esteja ativo antes do backend
+    volumes:
+      - node_sessions:/app/sessions  # Persistir sessões em um volume nomeado
+    environment:
+      - SERVER_URL=http://localhost:3000
+      - API_KEY=YOUR_API_KEY
+      - DB_CONNECTION_STRING=postgresql://onechatuser:secret@db:5432/onechatdb
+      - PROXY_HOST=
+      - PROXY_PORT=
+      - PROXY_PROTOCOL=
+      - PROXY_USERNAME=
+      - PROXY_PASSWORD=
+      - LOG_LEVEL=warn
+    restart: always  # Reiniciar o container automaticamente em caso de falha
+
+  db:
+    image: postgres:16  # Imagem do PostgreSQL
+    container_name: 1clickai-onechat-db
+    environment:
+      POSTGRES_USER: onechatuser
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: onechatdb
+    volumes:
+      - db_data:/var/lib/postgresql/data  # Persistência do banco de dados
+    restart: always  # Reiniciar automaticamente
+    ports:
+      - "5432:5432"  # Expor a porta do banco se necessário para debugging
+
+volumes:
+  db_data:  # Volume para dados do banco de dados
+  node_sessions:  # Volume para sessões gerenciadas pelo Baileys
