@@ -76,20 +76,22 @@ connectToDB()
         initializeAllInstances()
             .then(() => {
                 console.log(`
-                    🚀✨ OnetChat API Service Status ✨🚀
+                    🚀✨  OnetChat API Service Status ✨🚀
                     --------------------------------------
-                    ✅ Service has been successfully started!
-                    🌐 All instances initialized and ready.
-                    📡 Listening for requests...
+                    ✅  Service has been successfully started!
+                    🌐  All instances initialized and ready.
+                    📡  Listening for requests...
                     --------------------------------------
-                    🎉 Happy chatting! 🎉
+                    🎉  Happy chatting! 🎉
                     `);                    
             })
             .catch((error) => console.error('Error initializing instances:', error));
 
         app.listen(PORT, () => {
-            console.log(`Server running at http://localhost:${PORT}`);
-            console.log(`Swagger documentation available at http://localhost:${PORT}/api-docs`);
+            console.log('--------------------------------------');
+            console.log(`Server running at ${SERVER_URL}`);
+            console.log(`API Documentation available at ${SERVER_URL}/api-docs`);
+            console.log('--------------------------------------');
         });
     })
     .catch((error) => {

@@ -3,7 +3,7 @@
 
 Welcome to **OneChat API** – a powerful, easy-to-use instance server system developed by **[1Click.AI](https://1click.ai)**. 🎉 This repository provides everything you need to set up and manage your own instance server for seamless multi-platform bot automation. 
 
-![OneChat API](https://i.imgur.com/4kUlSa0.png)
+![OneChat API](https://i.imgur.com/a3C94a7.jpeg)
 
 ---
 
@@ -19,6 +19,8 @@ Welcome to **OneChat API** – a powerful, easy-to-use instance server system de
 ---
 
 ## 🎯 What is OneChat API?
+
+![OneChat API](https://i.imgur.com/4kUlSa0.png)
 
 **OneChat API** is an advanced multi-platform bot management system designed for developers and businesses to control multiple bot instances across **WhatsApp**, **Telegram**, and **Discord**. It's powered by **1Click.AI**'s cutting-edge infrastructure and is highly customizable to fit your automation needs.
 
@@ -77,7 +79,7 @@ To deploy using **EasyPanel**, you can use the following JSON schema:
                 "serviceName": "onechat-api",
                 "source": {
                     "type": "image",
-                    "image": "ghcr.io/1clickai/onechat-api:v1.0.0"
+                    "image": "ghcr.io/1clickai/onechat-api:latest"
                 },
                 "domains": [
                     {
@@ -85,7 +87,7 @@ To deploy using **EasyPanel**, you can use the following JSON schema:
                         "port": 31000
                     }
                 ],
-                "env": "SERVER_URL=http://localhost:31000\nAPI_KEY=YOUR_API_KEY\nDB_CONNECTION_STRING=\nPROXY_HOST=\nPROXY_PORT=\nPROXY_PROTOCOL=\nPROXY_USERNAME=\nPROXY_PASSWORD=\nLOG_LEVEL=warn",
+                "env": "SERVER_URL=https://$(PRIMARY_DOMAIN)\nAPI_KEY=YOUR_API_KEY\nPROXY_HOST=\nPROXY_PORT=\nPROXY_PROTOCOL=\nPROXY_USERNAME=\nPROXY_PASSWORD=\nLOG_LEVEL=warn\nDB_CONNECTION_STRING=postgres://postgres:secret@$(PROJECT_NAME)_onechat-db:5432/$(PROJECT_NAME)?sslmode=disable",
                 "mounts": [
                     {
                         "type": "volume",
@@ -107,21 +109,13 @@ To deploy using **EasyPanel**, you can use the following JSON schema:
     ]
 }
 ```
-
-2. For the `DB_CONNECTION_STRING` in **onechat-api**, copy the **Internal Connection URL** from **onechat-db** (found under Credentials).
-
-![OneChat API](https://i.imgur.com/ooqtNxq.png)
-
-3. Paste the URL into `DB_CONNECTION_STRING` in the environment settings of **onechat-api**.
-4. Save the changes, click Stop to halt the instance, click Deploy to apply updates, and click Start to relaunch the instance. Your changes will now take effect!
-
-![OneChat API](https://i.imgur.com/TgngaER.png)
-
-5. Open OneChat API Dashboard
+2. Open your OneChat API Dashboard
 
 ![OneChat API](https://i.imgur.com/rV3WsRA.png)
 
-6. To access the dashboard, enter the `YOUR_API_KEY` that you defined in the Environment Variables during setup.
+3. To access the dashboard, enter the `YOUR_API_KEY` that you defined in the Environment Variables. If you need to change the `API_KEY`, simply update it in the Environment Variables, then click "Stop," "Deploy," and "Start" to apply the changes.
+
+![OneChat API](https://i.imgur.com/DT8re8K.png)
 
 ![OneChat API](https://i.imgur.com/9eHRapy.png)
 
@@ -147,7 +141,7 @@ When the bot sends a request to your webhook, it will include the following JSON
 
 ```json
 {
-    "platform": "whatsApp",
+    "platform": "<platform>",
     "id": "<id>",
     "user": "<user>",
     "message": "<message>"
@@ -155,7 +149,7 @@ When the bot sends a request to your webhook, it will include the following JSON
 ```
 
 - `platform`: The platform the message originates from. Possible values are:
-  - `whatsApp`
+  - `whatsapp`
   - `discord`
   - `telegram`
 - `id`: A unique identifier for the conversation or interaction.
@@ -284,7 +278,7 @@ The official Docker image of OneChat API is now available on the GitHub Containe
 You can pull the latest version of the OneChat API Docker image using the following command:
 
 ```bash
-docker pull ghcr.io/1clickai/onechat-api:v1.0.0
+docker pull ghcr.io/1clickai/onechat-api:latest
 ```
 
 ### Run the container
@@ -292,7 +286,7 @@ docker pull ghcr.io/1clickai/onechat-api:v1.0.0
 To run the container, use:
 
 ```bash
-docker run -d -p 3000:3000 --name onechat-api ghcr.io/1clickai/onechat-api:v1.0.0
+docker run -d -p 3000:3000 --name onechat-api ghcr.io/1clickai/onechat-api:latest
 ```
 
 Replace `3000:3000` with the appropriate port mapping for your setup.

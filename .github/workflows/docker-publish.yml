@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  release:
+    types: [published]
 
 jobs:
   build-and-push:
@@ -28,18 +30,27 @@ jobs:
         with:
           driver: docker-container
 
-      # Debug para verificar se o arquivo foi copiado
-      - name: Debug file copy
-        run: ls -la src/dashboard/
-      - name: Debug file copy
-        run: ls -la src/dashboard/public
+      # Extrair metadados (tags, labels) para o Docker
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=raw,pattern=latest
 
       # Buildar e enviar a imagem Docker
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
+          context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}:v1.0.0
-          platforms: linux/amd64,linux/arm64  # Adicionado suporte multiplataforma
+          tags: ${{ steps.meta.outputs.tags }}
+          platforms: linux/amd64,linux/arm64,linux/386,linux/ppc64le,linux/s390x,windows/amd64,windows/arm64,osx/amd64
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:cache
           cache-to: type=inline

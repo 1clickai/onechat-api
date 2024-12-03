@@ -1,6 +1,6 @@
 services:
   1clickai:
-    image: ghcr.io/1clickai/onechat-api:v1.0.0
+    image: ghcr.io/1clickai/onechat-api:latest
     container_name: 1clickai-onechat-api
     ports:
       - "3000:3000"  # Porta exposta pelo serviço
